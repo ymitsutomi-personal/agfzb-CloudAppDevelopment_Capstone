@@ -64,6 +64,8 @@ function findByState(wkState) {
                     for (let i = 0; i < documents.docs.length; i++) {
                         let wkElement = {
                             id: documents.docs[i].id,
+                            short_name: documents.docs[i].short_name,
+                            full_name: documents.docs[i].full_name,
                             city: documents.docs[i].city,
                             state: documents.docs[i].state,
                             st: documents.docs[i].st,
