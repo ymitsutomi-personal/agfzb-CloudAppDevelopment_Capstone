@@ -80,7 +80,7 @@ function findByState(wkState) {
                     wkStatus = 200;
                 }
                 
-                resolve({ body: JSON.stringify(wkBody), statusCode: wkStatus });
+                resolve({ body: wkBody, statusCode: wkStatus });
             }
         });
     });
