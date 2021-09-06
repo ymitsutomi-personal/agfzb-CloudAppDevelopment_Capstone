@@ -106,19 +106,20 @@ def get_dealer_details(request, dealer_id):
 # Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
     if request.method == "GET":
-        dealersid = dealer_id
-        url = "https://7e8315e9.us-south.apigw.appdomain.cloud/capstone/api/dealership?dealerId={0}".format(dealersid)
+        # dealersid = dealer_id
+        # url = "https://7e8315e9.us-south.apigw.appdomain.cloud/capstone/api/dealership?dealerId={0}".format(dealersid)
         # Get dealers from the URL
         context = {
             "cars": models.CarModel.objects.all(),
-            "dealers": restapis.get_dealers_from_cf(url),
+            "dealer_id": dealer_id,
         }
         return render(request, 'djangoapp/add_review.html', context)
     if request.method == "POST":
+        print("dealerId desu:" + str(dealer_id))
         if request.user.is_authenticated:
             form = request.POST
             review = {
-                "name": "{request.user.first_name} {request.user.last_name}",
+                "name": str(request.user.first_name) + ' ' + str(request.user.username),
                 "dealership": dealer_id,
                 "review": form["content"],
                 "purchase": form.get("purchasecheck"),
@@ -132,7 +133,9 @@ def add_review(request, dealer_id):
             json_payload = {"review": review}
             print (json_payload)
             url = "https://7e8315e9.us-south.apigw.appdomain.cloud/capstone/api/review"
-            restapis.post_request(url, json_payload, dealerId=dealer_id)
+            api_res = restapis.post_request(url, json_payload, dealerId=dealer_id)
+            print("dummy")
+            print(api_res.text)
             return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
         else:
             return redirect("/djangoapp/login")

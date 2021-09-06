@@ -35,11 +35,12 @@ def get_request(url, **kwargs):
 def post_request(url, json_payload, **kwargs):
     json_obj = json_payload["review"]
     print(kwargs)
+    json_str = json.dumps(json_obj)
     try:
         response = requests.post(url, json=json_obj, params=kwargs)
     except:
         print("Something went wrong")
-    print (response)
+
     return response
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
